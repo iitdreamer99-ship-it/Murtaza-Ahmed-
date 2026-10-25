@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MRTZIX // Developer Portfolio & Manifesto</title>
+    <style>
+        :root {
+            --bg-dark: rgba(7, 12, 24, 0.92);
+            --bg-card: rgba(14, 23, 44, 0.88);
+            --border: #1c2b4a;
+            --accent-blue: #38bdf8;
+            --accent-green: #4ade80;
+            --accent-purple: #c084fc;
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+            --code-bg: #030712;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: linear-gradient(var(--bg-dark), var(--bg-dark)), url("{{ url_for('static', filename='27525.jpg') }}");
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: var(--text-main);
+            font-family: 'JetBrains Mono', Consolas, Monaco, 'Courier New', monospace;
+            line-height: 1.7;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        /* Terminal Window Header */
+        .terminal-header {
+            background: rgba(17, 24, 39, 0.95);
+            border: 1px solid var(--border);
+            border-bottom: none;
+            border-radius: 8px 8px 0 0;
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+        .dot-red { background: #ef4444; }
+        .dot-yellow { background: #f59e0b; }
+        .dot-green { background: #22c55e; }
+
+        .terminal-title {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            margin-left: auto;
+        }
+
+        .main-wrapper {
+            background: var(--bg-card);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--border);
+            border-radius: 0 0 8px 8px;
+            padding: 40px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.6);
+        }
+
+        .prompt {
+            color: var(--accent-green);
+        }
+
+        .cmd {
+            color: var(--accent-blue);
+        }
+
+        /* Hero / Bio Section */
+        .hero-section {
+            margin: 25px 0 35px 0;
+            border-bottom: 1px dashed var(--border);
+            padding-bottom: 30px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: var(--text-main);
+            margin: 10px 0 5px 0;
+            font-weight: 700;
+            letter-spacing: -1px;
+        }
+
+        .tagline {
+            color: var(--accent-blue);
+            font-size: 1.05rem;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        .bio-text {
+            color: #cbd5e1;
+            font-size: 0.95rem;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            margin-bottom: 20px;
+        }
+
+        /* Tech Stack Badges */
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .tech-badge {
+            background: rgba(56, 189, 248, 0.1);
+            color: var(--accent-blue);
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+        }
+
+        .section-title {
+            font-size: 1.4rem;
+            color: var(--text-main);
+            margin: 30px 0 20px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title span {
+            color: var(--accent-purple);
+            font-size: 1rem;
+        }
+
+        /* Grid for Manifesto Cards */
+        .grid-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .block {
+            background: rgba(3, 7, 18, 0.6);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 22px;
+            transition: border-color 0.3s ease;
+        }
+
+        .block:hover {
+            border-color: var(--accent-blue);
+        }
+
+        .full-width {
+            grid-column: span 2;
+        }
+
+        .block-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+
+        .block-title-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .block-number {
+            color: var(--accent-purple);
+            font-size: 0.85rem;
+            font-weight: bold;
+        }
+
+        h2 {
+            font-size: 1.1rem;
+            color: var(--accent-blue);
+        }
+
+        .terminal-icon {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            border: 1px solid var(--border);
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        p {
+            color: #cbd5e1;
+            font-size: 0.9rem;
+            margin-bottom: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            line-height: 1.6;
+        }
+
+        .quote-box {
+            background: var(--code-bg);
+            border-left: 3px solid var(--accent-green);
+            padding: 16px;
+            border-radius: 0 6px 6px 0;
+            color: var(--accent-green);
+            font-size: 0.88rem;
+        }
+
+        footer {
+            margin-top: 35px;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid var(--border);
+            padding-top: 20px;
+        }
+
+        footer a {
+            color: var(--accent-blue);
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .grid-container {
+                grid-template-columns: 1fr;
+            }
+            .full-width {
+                grid-column: span 1;
+            }
+            body {
+                padding: 15px 10px;
+            }
+            .main-wrapper {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Terminal Controls -->
+        <div class="terminal-header">
+            <div class="dot dot-red"></div>
+            <div class="dot dot-yellow"></div>
+            <div class="dot dot-green"></div>
+            <div class="terminal-title">mrtzix@portfolio:~</div>
+        </div>
+
+        <div class="main-wrapper">
+            <div>
+                <span class="prompt">guest@mrtzix:~$</span> <span class="cmd">./load-profile.sh</span>
+            </div>
+
+            <!-- Hero / Bio Section -->
+            <div class="hero-section">
+                <h1>MRTZIX</h1>
+                <div class="tagline">Full-Stack Developer & Independent Thinker</div>
+                <p class="bio-text">
+                    Welcome to my digital space. I build web applications using Python & Flask while deeply exploring code, human philosophy, and continuous learning. 
+                </p>
+                <div class="tech-stack">
+                    <span class="tech-badge">Python</span>
+                    <span class="tech-badge">Flask</span>
+                    <span class="tech-badge">HTML5 / CSS3</span>
+                    <span class="tech-badge">Git & GitHub</span>
+                    <span class="tech-badge">Render Deployment</span>
+                </div>
+            </div>
+
+            <!-- Manifesto Section Title -->
+            <div class="section-title">
+                <span>//</span> Personal Manifesto & Philosophy
+            </div>
+
+            <div class="grid-container">
+                <!-- Who Am I -->
+                <div class="block">
+                    <div class="block-header">
+                        <div class="block-title-wrapper">
+                            <span class="block-number">01.</span>
+                            <h2>Who Am I?</h2>
+                        </div>
+                        <span class="terminal-icon">&gt;_</span>
+                    </div>
+                    <p>I am a person who seeks to understand life beyond its surface. I am interested in the deeper questions of human existence, purpose, morality, and knowledge.</p>
+                </div>
+
+                <!-- Relationship with Islam -->
+                <div class="block">
+                    <div class="block-header">
+                        <div class="block-title-wrapper">
+                            <span class="block-number">02.</span>
+                            <h2>Islam & Faith</h2>
+                        </div>
+                        <span class="terminal-icon">&gt;_</span>
+                    </div>
+                    <p>Islam guides my exploration of life and morality. I aim to understand its teachings and how they connect with scientific knowledge and philosophical inquiry.</p>
+                </div>
+
+                <!-- Perspective on Humanity -->
+                <div class="block">
+                    <div class="block-header">
+                        <div class="block-title-wrapper">
+                            <span class="block-number">03.</span>
+                            <h2>Humanity</h2>
+                        </div>
+                        <span class="terminal-icon">&gt;_</span>
+                    </div>
+                    <p>Humanity goes beyond status or belief. It involves how we treat others, respond to suffering, and value genuine intentions and human dignity.</p>
+                </div>
+
+                <!-- Search for Knowledge -->
+                <div class="block">
+                    <div class="block-header">
+                        <div class="block-title-wrapper">
+                            <span class="block-number">04.</span>
+                            <h2>Knowledge & Truth</h2>
+                        </div>
+                        <span class="terminal-icon">&gt;_</span>
+                    </div>
+                    <p>I value questions that provoke deep thinking. Intellectual growth requires curiosity, patience, and humility without arrogance.</p>
+                </div>
+
+                <!-- Human Relationships -->
+                <div class="block">
+                    <div class="block-header">
+                        <div class="block-title-wrapper">
+                            <span class="block-number">05.</span>
+                            <h2>Relationships</h2>
+                        </div>
+                        <span class="terminal-icon">&gt;_</span>
+                    </div>
+                    <p>Relationships are complex. I seek to understand differences while ensuring compassion respects personal boundaries, honesty, and mutual respect.</p>
+                </div>
+
+                <!-- Ambitions & Personal Growth -->
+                <div class="block">
+                    <div class="block-header">
+                        <div class="block-title-wrapper">
+                            <span class="block-number">06.</span>
+                            <h2>Personal Growth</h2>
+                        </div>
+                        <span class="terminal-icon">&gt;_</span>
+                    </div>
+                    <p>Growth requires consistency and reflection. Success is meaningful when paired with integrity, responsibility, and learning from mistakes.</p>
+                </div>
+
+                <!-- Strengths & Improvement -->
+                <div class="block">
+                    <div class="block-header">
+                        <div class="block-title-wrapper">
+                            <span class="block-number">07.</span>
+                            <h2>Strengths & Limits</h2>
+                        </div>
+                        <span class="terminal-icon">&gt;_</span>
+                    </div>
+                    <p>I cultivate curiosity and critical thinking. Rather than feigning perfection, I embrace my limitations and examine my own thinking honestly.</p>
+                </div>
+
+                <!-- Personal Philosophy -->
+                <div class="block">
+                    <div class="block-header">
+                        <div class="block-title-wrapper">
+                            <span class="block-number">08.</span>
+                            <h2>Philosophy</h2>
+                        </div>
+                        <span class="terminal-icon">&gt;_</span>
+                    </div>
+                    <p>My journey is about self-understanding, exploring truth, and living thoughtfully with an open and responsible mind.</p>
+                </div>
+
+                <!-- Closing Quote spanning full width -->
+                <div class="block full-width">
+                    <div class="quote-box">
+                        // "I do not claim to know everything. I want to keep learning, questioning, understanding, and growing."
+                    </div>
+                </div>
+            </div>
+
+            <footer>
+                <div>MRTZIX &bull; Built with Python & Flask</div>
+                <div><a href="https://instagram.com" target="_blank">Instagram</a></div>
+            </footer>
+        </div>
+    </div>
+
+</body>
+</html>
